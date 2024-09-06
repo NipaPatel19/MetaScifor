@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load form_tags %}
+
+{% block title %}Task Form{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-12 col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="text-center mb-4">{% if task %}Edit Task{% else %}Create Task{% endif %}</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Task Title</label>
+                        {{ form.title|add_class:"form-control" }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Description</label>
+                        {{ form.description|add_class:"form-control" }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_due_date" class="form-label">Due Date</label>
+                        {{ form.due_date|add_class:"form-control datepicker" }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_priority" class="form-label">Priority</label>
+                        {{ form.priority|add_class:"form-control" }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_status" class="form-label">Status</label>
+                        {{ form.status|add_class:"form-control" }}
+                    </div>                
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-block">{% if task %}Update{% else %}Create{% endif %}</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <a href="{% url 'tasks' %}">Back to Task List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Bootstrap Datepicker CSS and JS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr('.datepicker', {
+            dateFormat: 'Y-m-d'
+        });
+    });
+    </script>    
+<script>
+$(document).ready(function(){
+    $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy',
+        autoclose: true,
+        todayHighlight: true
+    });
+});
+</script>
+{% endblock %}
